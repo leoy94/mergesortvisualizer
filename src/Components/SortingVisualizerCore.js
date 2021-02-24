@@ -36,17 +36,26 @@ export default function SortingVisualizerCore () {
                     if(selected.length>0){
                         backgroundColor = selected.some((item) => index === item)? "red": backgroundColor;
                     }
-                    let margin_right = splits.includes(index)?"15px": "5px";
+
+                    let width_right = splits.includes(index)?"5px": "";
+                    let margin = splits.includes(index)?"0px 20px": "";
                     return(
+                        <>
                         <div key={index} style={{
                             height: `${item*15}px`,
                             width: '15px',
-                            marginRight: margin_right,
-                            backgroundColor: backgroundColor
-
+                            backgroundColor: backgroundColor,
+                            margin: "0px 2px"
                         }}>
                             {item}
                         </div>
+                            <div style={{
+                                width: width_right,
+                                margin: margin,
+                                backgroundColor: "orange"
+                            }}></div>
+                        </>
+
                     );
                 })}
             </div>
@@ -69,7 +78,7 @@ async function animate(animations, handleFocus, splitState, handleSplit, handleM
         await new Promise((resolve) => {
             setTimeout(() =>{
                 resolve();
-            }, 100);
+            }, 10);
         })
 
         if(animations){
@@ -89,7 +98,7 @@ async function animate(animations, handleFocus, splitState, handleSplit, handleM
                     let itemIndex = animations[animation].itemIndex;
                     let leftBound = animations[animation].toIndex;
 
-                    if(itemIndex != leftBound){
+                    if(itemIndex !== leftBound){
                         let sortedArray = [...array];
 
                         let item = sortedArray.splice(itemIndex, 1);
@@ -104,16 +113,20 @@ async function animate(animations, handleFocus, splitState, handleSplit, handleM
 
 function handleFocusChange(setFocus){
     return function (start, end){
-        return ([start, end]);
+        setFocus([start, end]);
     }
 }
 
 function handleGenerateRandArr(size){
-    size = size?size:12;
+    size = size?size:100;
     let arr = [];
     let current = 0;
     while(current < size){
-        arr.push(Math.floor(Math.random() * 10));
+        let number = 0;
+        while(number < 1){
+            number = Math.floor(Math.random() * 10);
+        }
+        arr.push(number);
         current++;
     }
     return arr;
